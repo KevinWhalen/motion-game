@@ -11,7 +11,7 @@
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="42.5"
    height="42.5"
-   id="svg2"
+   id="fireIcon"
    version="1.1"
    inkscape:version="0.48.4 r9939"
    sodipodi:docname="fire.svg">
@@ -64,15 +64,15 @@
   <g
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
-     id="layer1"
+     id="fireIconLayer"
      transform="translate(-488.75,-481.125)">
     <g
-       id="g3799"
+       id="fireIconShape"
        transform="translate(-3.28423,-7.7087407e-7)">
       <path
          sodipodi:type="arc"
          style="fill:#cc0000;fill-opacity:1;stroke:#ff4444;stroke-opacity:1"
-         id="path3797"
+         id="fireIconAccentCresent"
          sodipodi:cx="510"
          sodipodi:cy="502.36218"
          sodipodi:rx="10"
