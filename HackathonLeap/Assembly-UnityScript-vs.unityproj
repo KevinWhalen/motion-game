@@ -44,6 +44,7 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\FT_CaveWorm\Animate Walk.js" />
      <Compile Include="Assets\Sources\CrumpleMesh.js" />
      <Compile Include="Assets\Sources\ExtrudedMeshTrail.js" />
      <Compile Include="Assets\Sources\FractalTexture.js" />
