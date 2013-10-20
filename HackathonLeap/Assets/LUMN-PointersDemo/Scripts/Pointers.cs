@@ -30,7 +30,7 @@ using Screen = UnityEngine.Screen;
 
 public class Pointers : MonoBehaviour 
 {
-	public bool showPointers = false;
+	public bool showPointers = true;
 	public Font font;
 	public Texture2D logo;
 	
@@ -44,11 +44,14 @@ public class Pointers : MonoBehaviour
 	
 	public void Start () 
 	{
-		// Set defaults and fix incorrect scaling issue w/ distributed Unity project (units are in mm, not cm)
+		// Set defaults and fix incorrect scaling issue with distributed 
+		// Unity project (units are in mm, not cm)
 		Leap.UnityVectorExtension.InputOffset = Vector3.zero;		
-		Leap.UnityVectorExtension.InputScale = Vector3.one * 0.001f;
+		//Leap.UnityVectorExtension.InputScale = Vector3.one * 0.001f;
+		Leap.UnityVectorExtension.InputScale = Vector3.one * 0.005f;
 		
-		pointables = new GameObject[10];
+		//pointables = new GameObject[10];
+		pointables = new GameObject[1];
 		pointableIDs = new int[pointables.Length];
 		for( int i = 0; i < pointables.Length; i++ )
 		{
@@ -73,24 +76,25 @@ public class Pointers : MonoBehaviour
 	
 	private void OnGUI()
 	{
+		/*
 		if (skin == null)
 		{
 			skin = Object.Instantiate(GUI.skin) as GUISkin;
 			skin.font = font;
 			skin.toggle.fontSize = 10;		
 		}
-				
-		GUI.skin = skin;
-		GUILayout.BeginArea(new Rect(0, 0, Screen.width, Screen.height));
-		showPointers = GUILayout.Toggle(showPointers, " Show Pointers");
-		GUILayout.FlexibleSpace();
-		GUILayout.BeginHorizontal();
-		GUILayout.Label("Experiment #2: Pointers Demo");
-		GUILayout.FlexibleSpace();
-		GUILayout.Label(logo, GUIStyle.none);
-		GUILayout.EndHorizontal();
-		GUILayout.Space(10f);
-		GUILayout.EndArea();
+		*/	
+		//GUI.skin = skin;
+		//GUILayout.BeginArea(new Rect(0, 0, Screen.width, Screen.height));
+				//showPointers = GUILayout.Toggle(showPointers, " Show Pointers");
+			//GUILayout.FlexibleSpace();
+			//GUILayout.BeginHorizontal();
+			//GUILayout.Label("Experiment #2: Pointers Demo");
+			//GUILayout.FlexibleSpace();
+			//GUILayout.Label(logo, GUIStyle.none);
+			//GUILayout.EndHorizontal();
+				//GUILayout.Space(10f); // was 10f
+		//GUILayout.EndArea();
 	}
 	
 	private GameObject CreatePointable(Transform parent, int index)
