@@ -42,13 +42,39 @@ public class Pointers : MonoBehaviour
 	private int[] pointableIDs = null;
 	private GUISkin skin;
 	
+	
+	// Tap variables
+	//public float pointableScale = 0.01f;  //    <====================    scaling
+	//public float hoverTime = 0.1f; // was 1.5f
+	//public Material pointableMaterial = null;
+	
+	//[HideInInspector]
+	//private SelectionMethod selectionMethod = SelectionMethod.Hover;
+	//private string[] selectionMethods = System.Enum.GetNames(typeof(SelectionMethod));
+	/*private string[] selectionDescriptions = new string[] {
+		"Hover over a piece to select; Drag to a new location and hover over to de-select",
+		"Tap on a piece once it is highlighted to select; Tap anywhere to de-select",
+		"Pinch a piece once it is highlighted to select; Pinch anywhere to de-select",
+	};*/
+	//private GameObject selected = null;
+	//private float selectedTime = 0f;
+	
+	Vector3 position = Vector3.zero;
+	
+	shoot s = new shoot();
+	
 	public void Start () 
 	{
 		// Set defaults and fix incorrect scaling issue with distributed 
 		// Unity project (units are in mm, not cm)
 		Leap.UnityVectorExtension.InputOffset = Vector3.zero;		
 		//Leap.UnityVectorExtension.InputScale = Vector3.one * 0.001f;
-		Leap.UnityVectorExtension.InputScale = Vector3.one * 0.005f;
+		Leap.UnityVectorExtension.InputScale = Vector3.one * 0.004f;
+		
+		// (Gesture.GestureType.TYPECIRCLE Gesture.GestureType.TYPESWIPE
+		LeapInputEx.Controller.EnableGesture(Gesture.GestureType.TYPEKEYTAP);
+		
+		LeapInputEx.GestureDetected += OnGestureDetected; //asdf
 		
 		//pointables = new GameObject[10];
 		pointables = new GameObject[1];
@@ -72,6 +98,34 @@ public class Pointers : MonoBehaviour
 	public void Update()
 	{
 		LeapInputEx.Update();
+		
+		//if (== Gesture.GestureType.TYPEKEYTAP)
+		//if (pointables[0].activeSelf){
+		//	position = pointables[0].transform.position;
+		//}
+		
+		/*
+        InteractionBox interactionBox = LeapInputEx.Frame.InteractionBox;
+
+        foreach(Pointable pointable in LeapInputEx.Frame.Pointables)
+        {
+			Vector normalizedPosition = interactionBox.NormalizePoint(pointable.StabilizedTipPosition);
+            float tx = normalizedPosition.x * 1000;//windowWidth;
+            //float ty = windowHeight - normalizedPosition.y * windowHeight;
+			float ty = 700 - normalizedPosition.y * 700;
+			
+            //int alpha = 255;
+            if(pointable.TouchDistance > 0 && pointable.TouchZone != Pointable.Zone.ZONENONE)
+            {
+                //alpha = 255 - (int)(255 * pointable.TouchDistance);
+                //touchIndicator.Color = Color.FromArgb((byte)alpha, 0x0, 0xff, 0x0);
+            }
+            else if(pointable.TouchDistance <= 0)
+            {
+                //alpha = -(int)(255 * pointable.TouchDistance);
+                //touchIndicator.Color = Color.FromArgb((byte)alpha, 0xff, 0x0, 0x0);
+            }
+		}*/
 	}
 	
 	private void OnGUI()
@@ -83,7 +137,6 @@ public class Pointers : MonoBehaviour
 			skin.font = font;
 			skin.toggle.fontSize = 10;		
 		}
-		*/	
 		//GUI.skin = skin;
 		//GUILayout.BeginArea(new Rect(0, 0, Screen.width, Screen.height));
 				//showPointers = GUILayout.Toggle(showPointers, " Show Pointers");
@@ -95,6 +148,7 @@ public class Pointers : MonoBehaviour
 			//GUILayout.EndHorizontal();
 				//GUILayout.Space(10f); // was 10f
 		//GUILayout.EndArea();
+		*/
 	}
 	
 	private GameObject CreatePointable(Transform parent, int index)
@@ -167,4 +221,79 @@ public class Pointers : MonoBehaviour
 		foreach( Renderer child in obj.GetComponentsInChildren<Renderer>() )
 			child.enabled = visible && showPointers;
 	}
+	
+	
+	
+	/*
+	private void EnteredTriggerVolume(GameObject go)
+	{
+		// Trigger a selection
+		//selected = go;
+		Debug.Log("line ~200. EnteredTriggerVolume");
+	}
+	
+	private void ExitedTriggerVolume(GameObject go)
+	{
+		if (selected == go)
+		{
+			selected = null;
+		}
+		Debug.Log("line ~215. ExitedTriggerVolume");
+	}*/
+	
+	private void OnGestureDetected(GestureList gestures)
+	{
+		foreach (Gesture g in gestures)
+		{
+			switch (g.Type)
+			{	
+			case Gesture.GestureType.TYPEKEYTAP:
+				Debug.Log("x: " + position.x.ToString() + " norm: " + position.normalized.x.ToString() + ", " + 
+					position.normalized.y.ToString() + ", " + position.normalized.z.ToString());
+				
+				position = pointables[0].transform.position;
+				
+				s.shootAttack(shoot.AttackMethod.Fire, position, pointables[0].transform.rotation);
+				
+				//Instantiate(gameObject.particleSystem);
+				
+				
+				Ray r = Camera.main.ScreenPointToRay(position);
+				RaycastHit hit;
+				if (Physics.Raycast(r, out hit, 500)){
+					Debug.Log(hit.transform.position.ToString() + ", norm: " + hit.normal);
+					//Vector3 hitPoint = hit.transform.position + hit.normal;
+					//Instantiate(currentBlock, hitPoint, Quaternion.identity);
+				}
+				
+				/*
+				if (selectionMethod == SelectionMethod.Tap && g.State == Gesture.GestureState.STATESTOP)
+				{
+					if (pointables[0].activeSelf){
+						position = pointables[0].transform.position;
+						Debug.Log("asdf!");
+						//if(pointables[0].TouchDistance <= 0){Debug.LogWarning("warning");}
+						//Leap.Frame
+					}
+				}*/
+				break;
+			default:
+				Debug.Log("gesture " + g.Type.ToString() + " detected.");
+				break;
+			}
+		}
+	}
+	
+	/*
+	public Rigidbody projecticle;
+	public float speed = 5f;
+	
+	private void shootAttack(AttackMethod attack, Vector3 startPosition, Quaternion angle)
+	{
+		Rigidbody shot = (Rigidbody)Instantiate(projecticle, startPosition, angle);
+		shot.velocity = transform.forward * speed;
+		// You can also acccess other components / scripts of the clone
+		//shot.GetComponent<MyRocketScript>().DoSomething();
+	}
+	*/
 }
