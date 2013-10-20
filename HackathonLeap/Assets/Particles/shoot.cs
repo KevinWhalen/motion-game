@@ -16,13 +16,18 @@ public class shoot : MonoBehaviour {
 	
 	public enum AttackMethod { Fire, Water, Wind, Lightning }
 	public Rigidbody projecticle;
+	//public GameObject obj;
 	public float speed = 5f;
 	
 	public void shootAttack(AttackMethod attack, Vector3 startPosition, Quaternion angle)
 	{
+		Debug.Log(projecticle.name + ", " + startPosition.x.ToString() + ", " + angle.w.ToString());
 		Rigidbody shot = (Rigidbody)Instantiate(projecticle, startPosition, angle);
 		shot.velocity = transform.forward * speed;
 		// You can also acccess other components / scripts of the clone
 		//projecticle = shot.GetComponent<Rigidbody>();
+		
+		//AssetDatabase.LoadAssetFromPath(@"Particle\" + attack.ToString());
+		//GameObject shot = Instantiate(Resources.Load(attack.ToString())) as GameObject; 
 	}
 }

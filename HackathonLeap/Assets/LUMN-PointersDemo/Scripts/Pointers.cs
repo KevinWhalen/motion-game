@@ -253,7 +253,8 @@ public class Pointers : MonoBehaviour
 				
 				position = pointables[0].transform.position;
 				
-				s.shootAttack(shoot.AttackMethod.Fire, position, pointables[0].transform.rotation);
+				//s.
+				GetComponent<shoot>().shootAttack(shoot.AttackMethod.Fire, position, pointables[0].transform.rotation);
 				
 				//Instantiate(gameObject.particleSystem);
 				
