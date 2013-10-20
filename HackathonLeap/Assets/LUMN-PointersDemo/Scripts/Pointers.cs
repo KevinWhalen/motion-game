@@ -59,9 +59,10 @@ public class Pointers : MonoBehaviour
 	//private GameObject selected = null;
 	//private float selectedTime = 0f;
 	
-	Vector3 position = Vector3.zero;
 	
-	shoot s = new shoot();
+	Vector3 position = Vector3.zero;
+	//shoot s = new shoot();
+	shoot.AttackMethod attack = shoot.AttackMethod.Fire;
 	
 	public void Start () 
 	{
@@ -104,28 +105,18 @@ public class Pointers : MonoBehaviour
 		//	position = pointables[0].transform.position;
 		//}
 		
-		/*
-        InteractionBox interactionBox = LeapInputEx.Frame.InteractionBox;
-
-        foreach(Pointable pointable in LeapInputEx.Frame.Pointables)
-        {
-			Vector normalizedPosition = interactionBox.NormalizePoint(pointable.StabilizedTipPosition);
-            float tx = normalizedPosition.x * 1000;//windowWidth;
-            //float ty = windowHeight - normalizedPosition.y * windowHeight;
-			float ty = 700 - normalizedPosition.y * 700;
-			
-            //int alpha = 255;
-            if(pointable.TouchDistance > 0 && pointable.TouchZone != Pointable.Zone.ZONENONE)
-            {
-                //alpha = 255 - (int)(255 * pointable.TouchDistance);
-                //touchIndicator.Color = Color.FromArgb((byte)alpha, 0x0, 0xff, 0x0);
-            }
-            else if(pointable.TouchDistance <= 0)
-            {
-                //alpha = -(int)(255 * pointable.TouchDistance);
-                //touchIndicator.Color = Color.FromArgb((byte)alpha, 0xff, 0x0, 0x0);
-            }
-		}*/
+		if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Keypad1)){
+			attack = shoot.AttackMethod.Fire;
+		}
+		else if (Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Keypad2)){
+			attack = shoot.AttackMethod.Lightning;
+		}
+		else if (Input.GetKeyDown(KeyCode.Alpha3) || Input.GetKeyDown(KeyCode.Keypad3)){
+			attack = shoot.AttackMethod.Water;
+		}
+		else if (Input.GetKeyDown(KeyCode.Alpha4) || Input.GetKeyDown(KeyCode.Keypad4)){
+			attack = shoot.AttackMethod.Wind;
+		}
 	}
 	
 	private void OnGUI()
@@ -254,7 +245,13 @@ public class Pointers : MonoBehaviour
 				position = pointables[0].transform.position;
 				
 				//s.
-				GetComponent<shoot>().shootAttack(shoot.AttackMethod.Fire, position, pointables[0].transform.rotation);
+				System.Type t = rigidbody.GetType();
+				foreach (Rigidbody rb in Rigidbody.FindObjectsOfType(t)){
+					if (rb.name.ToString() == attack.ToString()){
+						GetComponent<shoot>().projecticle = rb;
+					}
+				}
+				GetComponent<shoot>().shootAttack(attack, position, pointables[0].transform.rotation);
 				
 				//Instantiate(gameObject.particleSystem);
 				
