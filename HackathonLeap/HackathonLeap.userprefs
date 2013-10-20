@@ -1,9 +1,8 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\LUMN-PointersDemo\Scripts\Pointers.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Particles/shoot.cs">
     <Files>
-      <File FileName="Assets\LUMN-PointersDemo\Scripts\Pointers.cs" Line="254" Column="32" />
-      <File FileName="Assets\Particles\shoot.cs" Line="28" Column="50" />
+      <File FileName="Assets/Particles/shoot.cs" Line="20" Column="27" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

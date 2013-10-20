@@ -17,7 +17,7 @@ public class shoot : MonoBehaviour {
 	public enum AttackMethod { Fire, Water, Wind, Lightning }
 	public Rigidbody projecticle;
 	//public GameObject obj;
-	public float speed = 5f;
+	public float speed = 5000f;
 	
 	public void shootAttack(AttackMethod attack, Vector3 startPosition, Quaternion angle)
 	{
